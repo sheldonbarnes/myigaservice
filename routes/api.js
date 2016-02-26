@@ -11,10 +11,77 @@ router.get('/', function(req, res, next) {
 router.get('/bills', function (req, res) {
 
   Bill.find({}, function(err, docs){
+    docs.count = 55;
     res.send(docs);
   });
 });
 
+router.get('/bill/:name', function (req, res) {
+
+  Bill.find({billName: req.params.name}, function(err, docs){
+    //docs.count = 55;
+    res.send(docs);
+  });
+});
+
+
+router.get('/housebillsinsenate', function (req, res) {
+
+  Bill.find({originChamber: 'house', currentChamber: 'senate'}, function(err, docs){
+    //docs.count = 55;
+    res.send({ count: docs.length, bills: docs });
+  });
+});
+
+
+router.get('/bills/:currentChamber', function (req, res) {
+
+  Bill.find({'currentChamber': req.params.currentChamber}, function(err, docs){
+    res.send(docs);
+  });
+});
+
+/* BILL, CRES (Committee Resolution,
+*/
+
+/* possible motions DISSENT, CONCURRENCE), CR (Committee Report) */
+router.get('/bills/:currentChamber/:type', function (req, res) {
+
+  Bill.find({'currentChamber': req.params.currentChamber, 'type': req.params.type}, function(err, docs){
+    res.send(docs);
+  });
+});
+
+
+router.get('/bills-motions/:currentChamber/', function (req, res) {
+console.log('Special');
+
+  Bill.find({'currentChamber': req.params.currentChamber, $where: "this.motions.length > 0"}, function(err, docs){
+    res.send(docs);
+  });
+});
+
+
+/*
+
+  This route will return a list of bills that are considered bipartisan
+  This is defined as bills with both Democratic and Republcan (co)authors, (co)sponsors, and advisors
+*/
+router.get('/bipartisanbills/:currentChamber/', function (req, res) {
+console.log('Special');
+
+//Bill.find({'currentChamber': req.params.currentChamber}, { $and: [{'authors.party': 'Republican', 'authors.party':'Democratic']} }, function(err, docs){
+  Bill.find( { $and: [ {'authors.party': 'Republican'}, {'authors.party':'Democratic'}],
+  $and: [ {'coauthors.party': 'Republican'}, {'coauthors.party':'Democratic'}]
+  ,$and: [ {'sponsors.party': 'Republican'}, {'sponsors.party':'Democratic'}]
+  ,$and: [ {'cosponsors.party': 'Republican'}, {'cosponsors.party':'Democratic'}]
+  //,$or: [ {'advisors.party': 'Republican'}, {'advisors.party':'Democratic'}]
+
+}, function(err, docs){
+    res.send(docs);
+    console.log(docs.length);
+  });
+});
 
 router.get('/legislators', function (req, res) {
 
