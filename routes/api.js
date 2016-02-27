@@ -53,6 +53,12 @@ router.post('/followBill', function(req, res){
   res.send(req.body);
 })
 
+router.get('/followedBills/:name', function(req,res){
+  BillFollow.find({user: req.params.name}, function(err, docs){
+    res.send(docs);
+  });
+})
+
 router.get('/housebillsinsenate', function (req, res) {
 
   Bill.find({originChamber: 'house', currentChamber: 'senate'}, function(err, docs){
