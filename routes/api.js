@@ -2,14 +2,9 @@ var express = require('express');
 var router = express.Router();
 var Bill = require('../models/Bill');
 var Legislator = require('../models/Legislator');
-<<<<<<< HEAD
 var BillComment = require('../models/BillComment');
 var LegislatorFollow = require('../models/LegislatorFollow')
-
-=======
-var Comment = require('../models/Comments');
 var BillFollow = require('../models/BillFollow');
->>>>>>> 0b945ed7a0e1b7af3030fb3bdb21549a84fae9e0
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -26,6 +21,13 @@ router.get('/bills', function (req, res) {
 router.get('/bill/:name', function (req, res) {
 
   Bill.find({billName: req.params.name}, function(err, docs){
+    //docs.count = 55;
+    res.send(docs);
+  });
+});
+
+router.get('/billComments/:billName', function (req, res) {
+  BillComment.find({billName: req.params.billName}, function(err, docs){
     //docs.count = 55;
     res.send(docs);
   });
