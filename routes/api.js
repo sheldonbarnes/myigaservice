@@ -2,14 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Bill = require('../models/Bill');
 var Legislator = require('../models/Legislator');
-<<<<<<< HEAD
 var BillComment = require('../models/BillComment');
 var LegislatorFollow = require('../models/LegislatorFollow')
 
-=======
-var Comment = require('../models/Comments');
+//var Comment = require('../models/Comments');
 var BillFollow = require('../models/BillFollow');
->>>>>>> 0b945ed7a0e1b7af3030fb3bdb21549a84fae9e0
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
