@@ -3,7 +3,7 @@ var router = express.Router();
 var Bill = require('../models/Bill');
 var Legislator = require('../models/Legislator');
 var Comment = require('../models/Comments');
-
+var BillFollow = require('../models/BillFollow');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -28,6 +28,13 @@ router.get('/bill/:name', function (req, res) {
 router.post('/followLegislator', function (req, res) {
   var newComment = new Comment(req.body);
   newComment.save();
+  console.log(req.body);
+  res.send(req.body);
+})
+
+router.post('/followBill', function(req, res){
+  var newBillFollow = new BillFollow(req.body);
+  newBillFollow.save();
   console.log(req.body);
   res.send(req.body);
 })
