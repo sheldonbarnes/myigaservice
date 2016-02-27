@@ -9,4 +9,4 @@ var Comment = new Schema (
   }
 );
 
-module.exports = mongoose.model('Comment', Comment);
+module.exports = mongoose.model('BillComment', BillComment);
