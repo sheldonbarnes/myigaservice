@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Bill = require('../models/Bill');
 var Legislator = require('../models/Legislator');
-var Comment = require('../models/Comments');
+var BillComment = require('../models/BillComment');
+var LegislatorFollow = require('../models/LegislatorFollow')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -25,10 +26,17 @@ router.get('/bill/:name', function (req, res) {
   });
 });
 
-router.post('/followLegislator', function (req, res) {
-  var newComment = new Comment(req.body);
-  newComment.save();
+router.post('/billComment', function (req, res) {
+  var newBillComment = new BillComment(req.body);
+  newBillComment.save();
   console.log(req.body);
+  res.send(req.body);
+})
+
+router.post('/followLegislator', function (req, res) {
+  var newLegislatorFollow = new LegislatorFollow(req.body);
+  newLegislatorFollow.save();
+  console.log(res.body);
   res.send(req.body);
 })
 
@@ -118,7 +126,6 @@ router.post('/bill', function (req, res) {
   //newBill.billName = req.body.billName;
 
   newBill.save();
-
   console.log(req.body);
   res.send(req.body);
 });
